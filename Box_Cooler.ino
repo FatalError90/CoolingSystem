@@ -4,8 +4,6 @@
 
 #pragma region Változók és szenzorok
 
-const int buzzer = 24; //buzzer to arduino pin 9
-
 LiquidCrystal_I2C lcd(0x27, 16, 2); // LCD objektum létrehozása, az LCD címének, a karaktereinek és a sorainak megadása
 RTC_DS3231 rtc; // Létrehozzuk az RTC objektumot
 dht DHT; // DHT-11 objektum létrehozása
@@ -16,9 +14,7 @@ dht DHT; // DHT-11 objektum létrehozása
 #define fanPinOne A0
 #define fanPinTwo A1
 
-const int Relay_Pin = A0; //Relé adatpin (Analog 0)
-long duration; // a hanghullám terjedési idejének a változója
-int distance; // változó a távolságméréshez (vízszint)
+const int buzzer = 24;
 int temp; // változó a hőmérsékletnek
 int hum; // változó a pratartalomnak
 int second; // változó az RTC másodpercének
@@ -28,8 +24,6 @@ int minute; // változó az RTC percének
 
 void setup()
 {
-  pinMode(trigPin, OUTPUT); // HC-SR04 TRIGPIN megadása kimenetként (53-as digital pin)
-  pinMode(echoPin, INPUT); // HC-SR04 ECHOPIN megadása bemenetként (52-es digital pin)
   pinMode(Relay_Pin, OUTPUT); //Relé PIN megadása kimenetként (22-es digitalpin)
   pinMode(fanPinOne,OUTPUT);
   pinMode(fanPinTwo,OUTPUT);
@@ -45,10 +39,9 @@ void loop()
 {
   LCDTime(); // idő megjelenítése az LCD-n
   TemperatureAndHumidity(); //hőmérséklet és páratartalaom megjelenítése az LCD-nű
-  //FanMode();
-  //Buzz();
-  digitalWrite(fanPinOne, HIGH);
-
+  FanMode();
+  Buzz();
+  
   if (Serial.available())
   {
     char input = Serial.read();
